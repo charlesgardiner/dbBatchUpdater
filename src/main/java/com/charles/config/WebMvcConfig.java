@@ -1,5 +1,5 @@
 /*
-* © Copyright 2014 -  SourceClear Inc
+* © Copyright 2014 -  Charles Gardiner
 */
 package com.charles.config;
 

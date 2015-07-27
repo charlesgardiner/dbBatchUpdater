@@ -1,5 +1,5 @@
 /*
- * © Copyright 2015 -  SourceClear Inc
+ * © Copyright 2015 -  Charles Gardiner
  */
 
 
