@@ -1,5 +1,5 @@
 /*
- * © Copyright 2015 -  SourceClear Inc
+ * © Copyright 2015 -  Charles Gardiner
  */
 
 
@@ -27,7 +27,7 @@ public class UserInfoService {
 
   ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  private static Logger LOGGER = LoggerFactory.getLogger(UserInfoService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserInfoService.class);
   
   ////////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
