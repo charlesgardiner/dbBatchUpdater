@@ -24,6 +24,9 @@ public class BatchJobService {
   @Autowired
   private BatchJobRepository batchJobRepository;
   
+  @Autowired
+  private BatchJobBuilderService batchJobBuilderService;
+  
   // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   // //////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -33,7 +36,13 @@ public class BatchJobService {
     BatchJob batchJob =  new BatchJob();
     BeanUtils.copyProperties(createBatchJob, batchJob);
     batchJob.setBatchJobType(type);
-    return batchJobRepository.save(batchJob);
+    batchJob = batchJobRepository.save(batchJob);
+    
+    // scan the database to build the batch job object
+    batchJobBuilderService.buildBatchJob(batchJob);
+    
+    return batchJob;
+    
   }
   
   // ------------------------ Implements:

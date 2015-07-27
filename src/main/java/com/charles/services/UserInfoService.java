@@ -62,6 +62,7 @@ public class UserInfoService {
     return userInfoRepository.findAll(pageable);
   }
 
+  
   //------------------------ Overrides:
 
   //---------------------------- Abstract Methods -----------------------------
