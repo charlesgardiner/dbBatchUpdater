@@ -1,18 +1,13 @@
-/*
- * © Copyright 2015 -  SourceClear Inc
- */
+package com.charles.services;
 
-package com.charles;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import com.charles.data.mongo.BatchJobRepository;
 
-@SpringBootApplication
-@EnableAsync
-@EnableScheduling
-public class App {
+@Component
+public class BatchUpdaterTimerService {
 
   ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -20,16 +15,19 @@ public class App {
 
   //////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+  @Autowired
+  private BatchJobRepository BatchJobRepository;
+  
   /////////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-  public static void main(String[] args) throws Exception {
-    SpringApplication app = new SpringApplication(App.class);
-    app.setShowBanner(true);
-    app.run(args);
-  }
 
   ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+ // @Scheduled(cron = "")
+  @Scheduled(fixedRate = 3000)
+  public void startDatabaseUpdate(){
+    
+  }
+  
   //------------------------ Implements:
 
   //------------------------ Overrides:
@@ -39,4 +37,6 @@ public class App {
   //---------------------------- Utility Methods ------------------------------
 
   //---------------------------- Property Methods -----------------------------
+
+  
 }

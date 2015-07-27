@@ -32,7 +32,7 @@ public class BatchJobBuilderService {
   private BatchJobRepository batchJobRepository;
 
   @Autowired
-  private UserInfoService userInfoService;
+   private UserInfoService userInfoService;
 
   // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
