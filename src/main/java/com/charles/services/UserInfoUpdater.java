@@ -5,6 +5,9 @@
 package com.charles.services;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +21,7 @@ public class UserInfoUpdater implements Runnable {
 
   // /////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  private final static Logger LOGGER= LoggerFactory.getLogger(UserInfoUpdater.class);
+  private final static Logger LOGGER = LoggerFactory.getLogger(UserInfoUpdater.class);
   
   // //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -27,6 +30,8 @@ public class UserInfoUpdater implements Runnable {
   private BatchJob batchJob;
 
   private UserInfoService userInfoService;
+  
+  private List<UserInfo> retryQueue = new ArrayList()<UserInfo>();
 
   // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -53,7 +58,8 @@ public class UserInfoUpdater implements Runnable {
       } else if(batchJob.getBatchJobType() == BatchJobType.JOB_TITIE) {
         userInfo.setJobTitle(batchJob.getToValue());
       }
-      userInfoService.update(userInfoId, createUserInfoDto(userInfo));
+     
+      updateUserInfo(userInfo);
 
       try {
         Thread.sleep(5000);
@@ -61,12 +67,28 @@ public class UserInfoUpdater implements Runnable {
         // TODO: handle exception
       }
     }
+    
+    boolean retryQueueEmpty = retryQueue.isEmpty();
+    while( !retryQueueEmpty ){
+      updateUserInfo(retryQueue.remove(0));
+    }
+    
   }
 
   // ---------------------------- Abstract Methods -----------------------------
 
   // ---------------------------- Utility Methods ------------------------------
 
+  private void updateUserInfo(UserInfo userInfo) {
+    try {
+      userInfoService.update(userInfo.getUserId(), createUserInfoDto(userInfo));
+    } catch (Exception e) {
+      LOGGER.error("Could not user info {}", userInfo.getUserId(), e.getMessage());
+      LOGGER.error("Placing it back on the RERTY QUEUE);
+      retryQueue.add(userInfo);
+    }
+  }
+  
   private CreateUserInfoDto createUserInfoDto(UserInfo userInfo) {
     CreateUserInfoDto createUserInfoDto = new CreateUserInfoDto();
     BeanUtils.copyProperties(userInfo, createUserInfoDto);
