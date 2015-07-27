@@ -5,6 +5,8 @@
 package com.charles.services;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.charles.data.BatchJob;
@@ -16,6 +18,8 @@ public class UserInfoUpdater implements Runnable {
 
   // /////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+  private final static Logger LOGGER= LoggerFactory.getLogger(UserInfoUpdater.class);
+  
   // //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   // ////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

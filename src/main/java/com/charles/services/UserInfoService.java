@@ -5,7 +5,6 @@
 
 package com.charles.services;
 
-import java.awt.event.KeyListener;
 import java.util.List;
 
 import com.charles.data.BatchJob;
@@ -14,20 +13,22 @@ import com.charles.data.UserInfo;
 import com.charles.data.dto.CreateUserInfoDto;
 import com.charles.data.mongo.BatchJobRepository;
 import com.charles.data.mongo.UserInfoRepository;
-import com.charles.data.dto.UserInfoDto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class UserInfoService {
 
   ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+  private static Logger LOGGER = LoggerFactory.getLogger(UserInfoService.class);
+  
   ////////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   //////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -48,6 +49,8 @@ public class UserInfoService {
     UserInfo userInfo = new UserInfo();
     BeanUtils.copyProperties(userInfoDto, userInfo);
     userInfo =  userInfoRepository.save(userInfo);
+    
+    LOGGER.info("User info {}, {}, {} saved", userInfo.getName(), userInfo.getIndustry(), userInfo.getJobTitle());
     
     // check if this user needs to be added to any existing batch jobs for Industry
     List<BatchJob> matchingIndustryBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getIndustry(), BatchJobType.INDUSTRY);
