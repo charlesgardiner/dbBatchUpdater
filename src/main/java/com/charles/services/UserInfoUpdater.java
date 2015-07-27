@@ -5,7 +5,7 @@
 package com.charles.services;
 
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class UserInfoUpdater implements Runnable {
 
   private UserInfoService userInfoService;
   
-  private List<UserInfo> retryQueue = new ArrayList()<UserInfo>();
+  private List<UserInfo> retryQueue = new LinkedList<UserInfo>();
 
   // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -71,6 +71,12 @@ public class UserInfoUpdater implements Runnable {
     boolean retryQueueEmpty = retryQueue.isEmpty();
     while( !retryQueueEmpty ){
       updateUserInfo(retryQueue.remove(0));
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        // TODO: handle exception
+      }
+      retryQueueEmpty = retryQueue.isEmpty();
     }
     
   }
@@ -84,7 +90,7 @@ public class UserInfoUpdater implements Runnable {
       userInfoService.update(userInfo.getUserId(), createUserInfoDto(userInfo));
     } catch (Exception e) {
       LOGGER.error("Could not user info {}", userInfo.getUserId(), e.getMessage());
-      LOGGER.error("Placing it back on the RERTY QUEUE);
+      LOGGER.error("Placing it back on the RERTY QUEUE");
       retryQueue.add(userInfo);
     }
   }
