@@ -23,6 +23,8 @@ public class UserInfoUpdater implements Runnable {
 
   private final static Logger LOGGER = LoggerFactory.getLogger(UserInfoUpdater.class);
   
+  private final static int THREAD_SLEEP = 5000;
+  
   // //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   // ////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -61,17 +63,17 @@ public class UserInfoUpdater implements Runnable {
       updateUserInfo(userInfo);
 
       try {
-        Thread.sleep(5000);
+        Thread.sleep(THREAD_SLEEP);
       } catch (InterruptedException e) {
         // TODO: handle exception
       }
     }
     
     boolean retryQueueEmpty = retryQueue.isEmpty();
-    while( !retryQueueEmpty ){
+    while (!retryQueueEmpty) {
       updateUserInfo(retryQueue.remove(0));
       try {
-        Thread.sleep(5000);
+        Thread.sleep(THREAD_SLEEP);
       } catch (InterruptedException e) {
         // TODO: handle exception
       }
@@ -86,7 +88,8 @@ public class UserInfoUpdater implements Runnable {
 
   private void updateUserInfo(UserInfo userInfo) {
     try {
-      userInfoService.update(userInfo.getUserId(), createUserInfoDto(userInfo));
+      CreateUserInfoDto createUserInfoDto = userInfo.createUserInfoDto();
+      userInfoService.update(userInfo.getUserId(), createUserInfoDto);
     } catch (Exception e) {
       LOGGER.error("Could not user info {}", userInfo.getUserId(), e.getMessage());
       LOGGER.error("Placing it back on the RERTY QUEUE");
@@ -94,11 +97,11 @@ public class UserInfoUpdater implements Runnable {
     }
   }
   
-  protected CreateUserInfoDto createUserInfoDto(UserInfo userInfo) {
-    CreateUserInfoDto createUserInfoDto = new CreateUserInfoDto();
-    BeanUtils.copyProperties(userInfo, createUserInfoDto);
-    return createUserInfoDto;
-  }
+//  protected CreateUserInfoDto createUserInfoDto(UserInfo userInfo) {
+//    CreateUserInfoDto createUserInfoDto = new CreateUserInfoDto();
+//    BeanUtils.copyProperties(userInfo, createUserInfoDto);
+//    return createUserInfoDto;
+//  }
 
   // ---------------------------- Property Methods -----------------------------
 

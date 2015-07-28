@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +39,7 @@ public class BatchUpdaterTimerService {
 
  // @Scheduled(cron = "")
   @Scheduled(fixedRate = 30000)
+  @Async
   public void startDatabaseUpdate(){
     
     LOGGER.info("Starting Database Update Process");
@@ -49,7 +51,14 @@ public class BatchUpdaterTimerService {
       UserInfoUpdater userInfoUpdater = new UserInfoUpdater(batchJob, userInfoService);
       executorService.execute(userInfoUpdater);
     }
+    executorService.shutdown();
     
+    while (!executorService.isTerminated()) {
+    }
+    LOGGER.info("All Batch Executors Have Finished");
+    
+    // remove all the existing batch jobs
+    batchJobRepository.delete(batchJobList);
     
   }
   

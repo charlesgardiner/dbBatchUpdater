@@ -5,9 +5,12 @@
 
 package com.charles.data;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.charles.data.dto.CreateUserInfoDto;
 
 @Document
 public class UserInfo {
@@ -52,6 +55,12 @@ public class UserInfo {
 
   ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+  public CreateUserInfoDto createUserInfoDto() {
+    CreateUserInfoDto createUserInfoDto = new CreateUserInfoDto();
+    BeanUtils.copyProperties(this, createUserInfoDto);
+    return createUserInfoDto;
+  }
+  
   //------------------------ Implements:
 
   //------------------------ Overrides:
