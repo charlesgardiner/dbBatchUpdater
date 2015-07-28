@@ -27,18 +27,18 @@ public class BatchJobController {
 
   @Autowired
   private BatchJobService batchJobService;
-  
+
   // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   // //////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
- 
+
   @RequestMapping(value = "batchjob/changeJobTitle", method = RequestMethod.POST)
   public ResponseEntity<String> postBatchJobChangeJobTitle(@RequestBody CreateBatchJobDto createBatchJobDto) {
     BatchJob batchJob = batchJobService.createBatchJob(createBatchJobDto, BatchJobType.JOB_TITIE);
     return ResponseEntity.ok("Batch Job has been created.");
   }
-  
-  
+
+
   @RequestMapping(value = "batchjob/changeIndustry", method = RequestMethod.POST)
   public ResponseEntity<String>  postBatchJobChangeIndustry(@RequestBody CreateBatchJobDto createBatchJobDto) {
     BatchJob batchJob = batchJobService.createBatchJob(createBatchJobDto, BatchJobType.INDUSTRY);

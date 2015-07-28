@@ -51,12 +51,14 @@ public class UserInfoUpdater implements Runnable {
   @Override
   public void run() {
 
+    LOGGER.info("Starting Batch Update {}", batchJob.getId());
+    
     for(String userInfoId : batchJob.getUserInfoIds()) {
       UserInfo userInfo = userInfoService.getUserInfo(userInfoId);
 
-      if(batchJob.getBatchJobType() == BatchJobType.INDUSTRY) {
+      if (batchJob.getBatchJobType() == BatchJobType.INDUSTRY) {
         userInfo.setIndustry(batchJob.getToValue());
-      } else if(batchJob.getBatchJobType() == BatchJobType.JOB_TITIE) {
+      } else if (batchJob.getBatchJobType() == BatchJobType.JOB_TITIE) {
         userInfo.setJobTitle(batchJob.getToValue());
       }
      

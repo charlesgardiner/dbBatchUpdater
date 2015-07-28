@@ -78,7 +78,7 @@ public class UserInfoService {
       BeanUtils.copyProperties(userInfoDto, userInfo);
       return userInfoRepository.save(userInfo);
     }
-    throw new RuntimeException("User does not exist.");
+    return createUserInfo(userInfoDto);
   }
 
   public void delete(String userId) {
