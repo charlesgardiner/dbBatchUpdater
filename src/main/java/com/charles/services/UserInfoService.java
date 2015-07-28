@@ -64,22 +64,7 @@ public class UserInfoService {
     LOGGER.info("User info {}, {}, {} saved", userInfo.getName(), userInfo.getIndustry(), userInfo.getJobTitle());
     
     // check if this user needs to be added to any existing batch jobs for Industry
-    List<BatchJob> matchingIndustryBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getIndustry(), BatchJobType.INDUSTRY);
-    for (BatchJob batchJob : matchingIndustryBatchJobs) {
-      batchJob.getUserInfoIds().add(userInfo.getUserId());
-    }
-    if (!matchingIndustryBatchJobs.isEmpty()) {
-      batchJobRepository.save(matchingIndustryBatchJobs);
-    }
-    
-    List<BatchJob> matchingJobTitleBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getJobTitle(), BatchJobType.JOB_TITLE);
-    for (BatchJob batchJob : matchingJobTitleBatchJobs) {
-      batchJob.getUserInfoIds().add(userInfo.getUserId());
-    }
-    if (!matchingJobTitleBatchJobs.isEmpty()) {
-      batchJobRepository.save(matchingJobTitleBatchJobs);
-    }
-   
+    updateBatchJobs(userInfo);
     return userInfo;
   }
 
@@ -102,9 +87,12 @@ public class UserInfoService {
     UserInfo userInfo = userInfoRepository.findOne(userId);
     if (userInfo != null) {
       BeanUtils.copyProperties(userInfoDto, userInfo);
-      return userInfoRepository.save(userInfo);
+      UserInfo updatedUserInfo = userInfoRepository.save(userInfo);
+      updateBatchJobs(updatedUserInfo);
+      return updatedUserInfo;
+    } else {
+      return createUserInfo(userInfoDto);
     }
-    return createUserInfo(userInfoDto);
   }
 
   /**
@@ -132,6 +120,25 @@ public class UserInfoService {
 
   //---------------------------- Utility Methods ------------------------------
 
+  private void updateBatchJobs(UserInfo userInfo) {
+    // check if this user needs to be added to any existing batch jobs for Industry
+    List<BatchJob> matchingIndustryBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getIndustry(), BatchJobType.INDUSTRY);
+    for (BatchJob batchJob : matchingIndustryBatchJobs) {
+      batchJob.getUserInfoIds().add(userInfo.getUserId());
+    }
+    if (!matchingIndustryBatchJobs.isEmpty()) {
+      batchJobRepository.save(matchingIndustryBatchJobs);
+    }
+    
+    List<BatchJob> matchingJobTitleBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getJobTitle(), BatchJobType.JOB_TITLE);
+    for (BatchJob batchJob : matchingJobTitleBatchJobs) {
+      batchJob.getUserInfoIds().add(userInfo.getUserId());
+    }
+    if (!matchingJobTitleBatchJobs.isEmpty()) {
+      batchJobRepository.save(matchingJobTitleBatchJobs);
+    }
+  }
+  
   //---------------------------- Property Methods -----------------------------
 }
 

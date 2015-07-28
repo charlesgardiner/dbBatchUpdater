@@ -49,8 +49,8 @@ public class BatchUpdaterTimerService {
 
   ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
- // @Scheduled(cron = "")
-  @Scheduled(fixedRate = 100000)
+  @Scheduled(cron = "0 0 1 * * ?")
+  //@Scheduled(fixedRate = 100000)
   @Async
   public void startDatabaseUpdate(){
     
