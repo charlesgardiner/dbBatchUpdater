@@ -32,6 +32,18 @@ Body {
 
 GET /userinfo/{id}
 
+***Update the user info***
+
+POST /userinfo/{id}
+{
+  "name": "Craig",
+  "jobTitle": "CPA",
+  "industry": "MONEY",
+  "version": 1
+}
+
+NOTE: if a user info with that id does not exist a new one is generated and the user info is created with that id.
+
 ***Delete the user info***
 
 Delete /userinfo/{id}
