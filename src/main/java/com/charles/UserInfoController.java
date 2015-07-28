@@ -49,7 +49,7 @@ public class UserInfoController {
   public ResponseEntity getUserInfo(@RequestParam("page") Integer page){
     Page<UserInfo> userInfoPage = userInfoService.getPage(new PageRequest(page, 3));
     List<UserInfo> userInfoList = userInfoPage.getContent();
-    return new ResponseEntity(userInfoList, HttpStatus.OK);
+    return new ResponseEntity<>(userInfoList, HttpStatus.OK);
   }
 
   @RequestMapping(value = "userinfo/{id}", method = RequestMethod.GET)
@@ -67,7 +67,7 @@ public class UserInfoController {
   @RequestMapping(value = "userinfo/{id}", method = RequestMethod.DELETE)
   public ResponseEntity deleteUserInfo(@PathVariable String id){
     userInfoService.delete(id);
-    return new ResponseEntity(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
 

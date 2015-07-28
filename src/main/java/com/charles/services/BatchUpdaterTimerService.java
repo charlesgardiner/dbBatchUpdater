@@ -17,6 +17,15 @@ import org.springframework.stereotype.Component;
 import com.charles.data.BatchJob;
 import com.charles.data.mongo.BatchJobRepository;
 
+
+/**
+ * BatchUpdaterTimerService
+ * 
+ * kicks off the the UserInfoUpdaters for each batch job in a database.
+ * 
+ * @author Charles
+ *
+ */
 @Component
 public class BatchUpdaterTimerService {
 
@@ -41,7 +50,7 @@ public class BatchUpdaterTimerService {
   ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
  // @Scheduled(cron = "")
-  @Scheduled(fixedRate = 30000)
+  @Scheduled(fixedRate = 100000)
   @Async
   public void startDatabaseUpdate(){
     

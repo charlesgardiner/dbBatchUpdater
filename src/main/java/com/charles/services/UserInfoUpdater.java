@@ -16,12 +16,20 @@ import com.charles.data.BatchJobType;
 import com.charles.data.UserInfo;
 import com.charles.data.dto.CreateUserInfoDto;
 
+/**
+ * Thread based class to execute a batch job update.
+ * 
+ * 
+ * @author Charles
+ *
+ */
 public class UserInfoUpdater implements Runnable {
 
   ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   private final static Logger LOGGER = LoggerFactory.getLogger(UserInfoUpdater.class);
   
+  // sleep five seconds
   private static int THREAD_SLEEP = 5000;
   
   //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -36,6 +44,11 @@ public class UserInfoUpdater implements Runnable {
 
   /////////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+  /**
+   * Constructor
+   * @param batchJob the batch job to execute
+   * @param userInfoService constructor injected user info service
+   */
   public UserInfoUpdater(BatchJob batchJob, UserInfoService userInfoService) {
     this.batchJob = batchJob;
     this.userInfoService = userInfoService;
@@ -43,9 +56,9 @@ public class UserInfoUpdater implements Runnable {
   
   /**
    * For unit testing, allow for the adjustment of thread sleeping
-   * @param batchJob
-   * @param userInfoService
-   * @param threadSleepDuration
+   * @param batchJob the batch job
+   * @param userInfoService the user info service
+   * @param threadSleepDuration the duration of the thread sleep
    */
   protected UserInfoUpdater(BatchJob batchJob, UserInfoService userInfoService, int threadSleepDuration) {
     this.batchJob = batchJob;
@@ -78,7 +91,7 @@ public class UserInfoUpdater implements Runnable {
       try {
         Thread.sleep(THREAD_SLEEP);
       } catch (InterruptedException e) {
-        // TODO: handle exception
+       LOGGER.error("Thread for User Info Updater {} interrupted", batchJob.getId());
       }
     }
     
@@ -88,7 +101,7 @@ public class UserInfoUpdater implements Runnable {
       try {
         Thread.sleep(THREAD_SLEEP);
       } catch (InterruptedException e) {
-        // TODO: handle exception
+        LOGGER.error("Thread for User Info Updater {} interrupted", batchJob.getId());
       }
       retryQueueEmpty = retryQueue.isEmpty();
     }
@@ -99,11 +112,18 @@ public class UserInfoUpdater implements Runnable {
 
   //---------------------------- Utility Methods ------------------------------
 
+  /**
+   * Updates the user info
+   * @param userInfo the user info object to update
+   */
   private void updateUserInfo(UserInfo userInfo) {
     try {
       CreateUserInfoDto createUserInfoDto = userInfo.createUserInfoDto();
       userInfoService.update(userInfo.getUserId(), createUserInfoDto);
     } catch (Exception e) {
+      
+      // if an exception is thrown during the update.  Place userInfo object on the retry queue.
+      
       LOGGER.error("Could not user info {}", userInfo.getUserId(), e.getMessage());
       LOGGER.error("Placing it back on the RERTY QUEUE");
       retryQueue.add(userInfo);

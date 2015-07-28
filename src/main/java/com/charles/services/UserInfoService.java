@@ -22,6 +22,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @author Charles
+ *
+ */
+
 @Component
 public class UserInfoService {
 
@@ -45,6 +51,11 @@ public class UserInfoService {
 
   //------------------------ Implements:
 
+  /**
+   * Creates a new user info
+   * @param userInfoDto the user info dto
+   * @return a user info object
+   */
   public UserInfo createUserInfo(CreateUserInfoDto userInfoDto) {
     UserInfo userInfo = new UserInfo();
     BeanUtils.copyProperties(userInfoDto, userInfo);
@@ -72,11 +83,21 @@ public class UserInfoService {
     return userInfo;
   }
 
-
+  /**
+   * Get the user info based on the id
+   * @param userId the user id
+   * @return
+   */
   public UserInfo getUserInfo(String userId) {
    return userInfoRepository.findOne(userId);
   }
 
+  /**
+   * Updates an existing user or creates a  new one
+   * @param userId the user id
+   * @param userInfoDto
+   * @return
+   */
   public UserInfo update(String userId, CreateUserInfoDto userInfoDto) {
     UserInfo userInfo = userInfoRepository.findOne(userId);
     if (userInfo != null) {
@@ -86,10 +107,20 @@ public class UserInfoService {
     return createUserInfo(userInfoDto);
   }
 
+  /**
+   * Deletes the given id
+   * 
+   * @param userId
+   */
   public void delete(String userId) {
     userInfoRepository.delete(userId);
   }
 
+  /**
+   * This is analogous to the scan of the db driver.
+   * @param pageable the page information to get from the info
+   * @return a page of the database based on the pageable input
+   */
   public Page<UserInfo> getPage(Pageable pageable) {
     return userInfoRepository.findAll(pageable);
   }

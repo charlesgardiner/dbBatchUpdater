@@ -42,11 +42,12 @@ public class BatchJobService {
     batchJob.setBatchJobType(type);
     batchJob = batchJobRepository.save(batchJob);
     
+    LOGGER.info("Batch Job created from {} to {}", batchJob.getFromValue(), batchJob.getToValue());
+    
     // scan the database to build the batch job object
     batchJobBuilderService.buildBatchJob(batchJob);
     
     return batchJob;
-    
   }
   
   //------------------------ Implements:
