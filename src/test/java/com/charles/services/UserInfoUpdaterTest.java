@@ -16,7 +16,7 @@ import com.charles.data.UserInfo;
 import com.charles.data.dto.CreateUserInfoDto;
 import com.google.common.collect.Lists;
 
-
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserInfoUpdaterTest {
@@ -33,43 +33,55 @@ public class UserInfoUpdaterTest {
   public UserInfo eduUserInfo = new UserInfo("12345abc", "SUSAN", "Cheif Executive Officor", "EDUCATION", 1L);
 
   
-  public UserInfo salesUserInfo = new UserInfo("789def", "CHRIS", "Cheif Executive Officor", "SALES", 1L);
+  public UserInfo salesUserInfoResult = new UserInfo("789def", "CHRIS", "Cheif Executive Officor", "SALES", 1L);
+  public UserInfo salesUserInfo = mock(UserInfo.class);
   
   
-  public CreateUserInfoDto salesUserInfoUpdate = new CreateUserInfoDto("CHRIS", "CEO", "SALES", 1L);
+  public CreateUserInfoDto salesUserInfoUpdate = new CreateUserInfoDto("CHRIS", "CEO", "DOORS", 1L);
   
 ////////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 //////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   @Mock
-  private UserInfoService userInfoService; 
+  private UserInfoService userInfoService =  mock(UserInfoService.class); 
   
   
 /////////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //
+//  @Test
+//  public void testUpdateIndustry() {
+//    UserInfoUpdater userInfoUpdater = new UserInfoUpdater(INDUSTRY_BATCH_JOB, userInfoService);
+//    when(userInfoService.getUserInfo("789def")).thenReturn(salesUserInfo);
+//    userInfoUpdater.run();
+//    
+//    verify(userInfoService, Mockito.times(1)).update(Mockito.anyString(), Mockito.any(CreateUserInfoDto.class));
+//  }
+  
   @Test
-  public void testUpdateIndustry() {
+  public void testException() {
     UserInfoUpdater userInfoUpdater = new UserInfoUpdater(INDUSTRY_BATCH_JOB, userInfoService);
-    Mockito.when(userInfoService.getUserInfo("789def")).thenReturn(salesUserInfo);
+    when(userInfoService.getUserInfo("789def")).thenReturn(salesUserInfo);
+    stub(salesUserInfo.getUserId()).toReturn("789def");
+    stub(salesUserInfo.createUserInfoDto()).toReturn(salesUserInfoUpdate);
+    stub(userInfoService.update("789def", salesUserInfoUpdate)).toThrow(new RuntimeException()).toReturn(salesUserInfoResult);
     userInfoUpdater.run();
-    
-    Mockito.verify(userInfoService, Mockito.times(1)).update(Mockito.anyString(), Mockito.any(CreateUserInfoDto.class));
+    verify(userInfoService, Mockito.times(2)).update("789def", salesUserInfoUpdate);
   }
   
 //  @Test
 //  public void testUpdateJob() {
 //    UserInfoUpdater userInfoUpdater = new UserInfoUpdater(JOB_TITLE_BATCH_JOB, userInfoService);
 //    
-//    Mockito.when(userInfoService.getUserInfo("12345abc")).thenReturn(eduUserInfo);
-//    Mockito.when(userInfoService.getUserInfo("789def")).thenReturn(salesUserInfo);
+//    when(userInfoService.getUserInfo("12345abc")).thenReturn(eduUserInfo);
+//    when(userInfoService.getUserInfo("789def")).thenReturn(salesUserInfo);
 //    userInfoUpdater.run();
 //    
-//    Mockito.verify(userInfoService, Mockito.times(1)).update("12345abc", );
+//    
 //  }
-  
+//  
   
   
 //  @Test
