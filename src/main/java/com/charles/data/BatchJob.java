@@ -32,6 +32,21 @@ public class BatchJob {
 
   // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+  public BatchJob() {
+  }
+  
+  
+  public BatchJob(String id, String fromValue, String toValue,
+      List<String> userInfoIds, BatchJobType batchJobType) {
+    super();
+    this.id = id;
+    this.fromValue = fromValue;
+    this.toValue = toValue;
+    this.userInfoIds = userInfoIds;
+    this.batchJobType = batchJobType;
+  }
+
+
   // //////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   // ------------------------ Implements:

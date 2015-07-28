@@ -36,7 +36,6 @@ public class UserInfoUpdater implements Runnable {
   // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   public UserInfoUpdater(BatchJob batchJob, UserInfoService userInfoService) {
-    super();
     this.batchJob = batchJob;
     this.userInfoService = userInfoService;
   }
@@ -95,7 +94,7 @@ public class UserInfoUpdater implements Runnable {
     }
   }
   
-  private CreateUserInfoDto createUserInfoDto(UserInfo userInfo) {
+  protected CreateUserInfoDto createUserInfoDto(UserInfo userInfo) {
     CreateUserInfoDto createUserInfoDto = new CreateUserInfoDto();
     BeanUtils.copyProperties(userInfo, createUserInfoDto);
     return createUserInfoDto;

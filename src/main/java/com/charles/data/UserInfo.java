@@ -38,6 +38,18 @@ public class UserInfo {
   public UserInfo() {
   }
 
+  
+  
+  public UserInfo(String userId, String name, String jobTitle, String industry, long version) {
+    this.userId = userId;
+    this.name = name;
+    this.jobTitle = jobTitle;
+    this.industry = industry;
+    this.version = version;
+  }
+
+
+
   ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   //------------------------ Implements:

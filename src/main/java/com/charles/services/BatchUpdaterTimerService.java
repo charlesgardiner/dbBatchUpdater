@@ -40,6 +40,8 @@ public class BatchUpdaterTimerService {
   @Scheduled(fixedRate = 30000)
   public void startDatabaseUpdate(){
     
+    LOGGER.info("Starting Database Update Process");
+    
     ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     
     List<BatchJob> batchJobList = batchJobRepository.findAll();
