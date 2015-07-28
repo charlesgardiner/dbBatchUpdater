@@ -19,22 +19,22 @@ import com.charles.services.BatchJobService;
 @RestController
 public class BatchJobController {
 
-  // /////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // ////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   @Autowired
   private BatchJobService batchJobService;
 
-  // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  /////////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // //////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   @RequestMapping(value = "batchjob/changeJobTitle", method = RequestMethod.POST)
   public ResponseEntity<String> postBatchJobChangeJobTitle(@RequestBody CreateBatchJobDto createBatchJobDto) {
-    BatchJob batchJob = batchJobService.createBatchJob(createBatchJobDto, BatchJobType.JOB_TITIE);
+    BatchJob batchJob = batchJobService.createBatchJob(createBatchJobDto, BatchJobType.JOB_TITLE);
     return ResponseEntity.ok("Batch Job has been created.");
   }
 
@@ -45,13 +45,13 @@ public class BatchJobController {
     return ResponseEntity.ok("Batch Job has been created.");
   }
 
-  // ------------------------ Implements:
+  //------------------------ Implements:
 
-  // ------------------------ Overrides:
+  //------------------------ Overrides:
 
-  // ---------------------------- Abstract Methods -----------------------------
+  //---------------------------- Abstract Methods -----------------------------
 
-  // ---------------------------- Utility Methods ------------------------------
+  //---------------------------- Utility Methods ------------------------------
 
-  // ---------------------------- Property Methods -----------------------------
+  //---------------------------- Property Methods -----------------------------
 }

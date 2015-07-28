@@ -1,8 +1,8 @@
-package com.charles.data.dto;
-
 /*
  * © Copyright 2015 -  Charles Gardiner
  */
+
+package com.charles.data.dto;
 
 public class CreateBatchJobDto {
 

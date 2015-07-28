@@ -1,3 +1,6 @@
+/*
+ * © Copyright 2015 -  Charles Gardiner
+ */
 package com.charles.services;
 
 import java.util.List;
@@ -21,7 +24,7 @@ public class BatchUpdaterTimerService {
 
   private final static Logger LOGGER = LoggerFactory.getLogger(BatchUpdaterTimerService.class);
   
-  private final static int THREAD_POOL_SIZE = 5;
+  private final static int THREAD_POOL_SIZE = 4;
   
   ////////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -47,7 +50,7 @@ public class BatchUpdaterTimerService {
     ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     
     List<BatchJob> batchJobList = batchJobRepository.findAll();
-    for(BatchJob batchJob : batchJobList) {
+    for (BatchJob batchJob : batchJobList) {
       UserInfoUpdater userInfoUpdater = new UserInfoUpdater(batchJob, userInfoService);
       executorService.execute(userInfoUpdater);
     }

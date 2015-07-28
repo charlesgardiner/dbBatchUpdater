@@ -54,16 +54,21 @@ public class UserInfoService {
     
     // check if this user needs to be added to any existing batch jobs for Industry
     List<BatchJob> matchingIndustryBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getIndustry(), BatchJobType.INDUSTRY);
-    for( BatchJob batchJob : matchingIndustryBatchJobs) {
+    for (BatchJob batchJob : matchingIndustryBatchJobs) {
       batchJob.getUserInfoIds().add(userInfo.getUserId());
     }
-    batchJobRepository.save(matchingIndustryBatchJobs);
+    if (!matchingIndustryBatchJobs.isEmpty()) {
+      batchJobRepository.save(matchingIndustryBatchJobs);
+    }
     
-    List<BatchJob> matchingJobTitleBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getJobTitle(), BatchJobType.JOB_TITIE);
-    for( BatchJob batchJob : matchingJobTitleBatchJobs) {
+    List<BatchJob> matchingJobTitleBatchJobs = batchJobRepository.findByFromValueAndBatchJobType(userInfo.getJobTitle(), BatchJobType.JOB_TITLE);
+    for (BatchJob batchJob : matchingJobTitleBatchJobs) {
       batchJob.getUserInfoIds().add(userInfo.getUserId());
     }
-    batchJobRepository.save(matchingJobTitleBatchJobs);
+    if (!matchingJobTitleBatchJobs.isEmpty()) {
+      batchJobRepository.save(matchingJobTitleBatchJobs);
+    }
+   
     return userInfo;
   }
 

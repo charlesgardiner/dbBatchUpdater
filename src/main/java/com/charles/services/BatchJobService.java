@@ -17,13 +17,13 @@ import com.charles.data.mongo.BatchJobRepository;
 @Service
 public class BatchJobService {
 
-  // /////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   private final static Logger LOGGER = LoggerFactory.getLogger(BatchJobService.class);
   
-  // //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // ////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  /////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   @Autowired
   private BatchJobRepository batchJobRepository;
@@ -31,9 +31,9 @@ public class BatchJobService {
   @Autowired
   private BatchJobBuilderService batchJobBuilderService;
   
-  // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // //////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   public BatchJob createBatchJob(CreateBatchJobDto createBatchJob, BatchJobType type) {
     
@@ -49,13 +49,13 @@ public class BatchJobService {
     
   }
   
-  // ------------------------ Implements:
+  //------------------------ Implements:
 
-  // ------------------------ Overrides:
+  //------------------------ Overrides:
 
-  // ---------------------------- Abstract Methods -----------------------------
+  //---------------------------- Abstract Methods -----------------------------
 
-  // ---------------------------- Utility Methods ------------------------------
+  //---------------------------- Utility Methods ------------------------------
 
-  // ---------------------------- Property Methods -----------------------------
+  //---------------------------- Property Methods -----------------------------
 }

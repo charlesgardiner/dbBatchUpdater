@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 
 import com.charles.data.BatchJob;
 import com.charles.data.BatchJobType;
@@ -19,15 +18,15 @@ import com.charles.data.dto.CreateUserInfoDto;
 
 public class UserInfoUpdater implements Runnable {
 
-  // /////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   private final static Logger LOGGER = LoggerFactory.getLogger(UserInfoUpdater.class);
   
-  private final static int THREAD_SLEEP = 5000;
+  private static int THREAD_SLEEP = 5000;
   
-  // //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // ////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   private BatchJob batchJob;
 
@@ -35,18 +34,30 @@ public class UserInfoUpdater implements Runnable {
   
   private List<UserInfo> retryQueue = new LinkedList<UserInfo>();
 
-  // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  /////////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   public UserInfoUpdater(BatchJob batchJob, UserInfoService userInfoService) {
     this.batchJob = batchJob;
     this.userInfoService = userInfoService;
   }
+  
+  /**
+   * For unit testing, allow for the adjustment of thread sleeping
+   * @param batchJob
+   * @param userInfoService
+   * @param threadSleepDuration
+   */
+  protected UserInfoUpdater(BatchJob batchJob, UserInfoService userInfoService, int threadSleepDuration) {
+    this.batchJob = batchJob;
+    this.userInfoService = userInfoService;
+    THREAD_SLEEP = threadSleepDuration;
+  } 
 
-  // //////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // ------------------------ Implements:
+  //------------------------ Implements:
 
-  // ------------------------ Overrides:
+  //------------------------ Overrides:
 
   @Override
   public void run() {
@@ -58,7 +69,7 @@ public class UserInfoUpdater implements Runnable {
 
       if (batchJob.getBatchJobType() == BatchJobType.INDUSTRY) {
         userInfo.setIndustry(batchJob.getToValue());
-      } else if (batchJob.getBatchJobType() == BatchJobType.JOB_TITIE) {
+      } else if (batchJob.getBatchJobType() == BatchJobType.JOB_TITLE) {
         userInfo.setJobTitle(batchJob.getToValue());
       }
      
@@ -84,9 +95,9 @@ public class UserInfoUpdater implements Runnable {
     
   }
 
-  // ---------------------------- Abstract Methods -----------------------------
+  //---------------------------- Abstract Methods -----------------------------
 
-  // ---------------------------- Utility Methods ------------------------------
+  //---------------------------- Utility Methods ------------------------------
 
   private void updateUserInfo(UserInfo userInfo) {
     try {
@@ -98,13 +109,7 @@ public class UserInfoUpdater implements Runnable {
       retryQueue.add(userInfo);
     }
   }
-  
-//  protected CreateUserInfoDto createUserInfoDto(UserInfo userInfo) {
-//    CreateUserInfoDto createUserInfoDto = new CreateUserInfoDto();
-//    BeanUtils.copyProperties(userInfo, createUserInfoDto);
-//    return createUserInfoDto;
-//  }
 
-  // ---------------------------- Property Methods -----------------------------
+  //---------------------------- Property Methods -----------------------------
 
 }

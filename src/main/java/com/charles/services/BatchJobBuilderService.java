@@ -1,8 +1,9 @@
-package com.charles.services;
-
 /*
  * © Copyright 2015 -  Charles Gardiner
  */
+
+package com.charles.services;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +23,11 @@ import com.charles.data.mongo.UserInfoRepository;
 @Service
 public class BatchJobBuilderService {
 
-  // /////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ///////////////////////////// Class Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // //////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////// Class Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // ////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //////////////////////////////// Attributes \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
   @Autowired
   private BatchJobRepository batchJobRepository;
@@ -34,18 +35,18 @@ public class BatchJobBuilderService {
   @Autowired
    private UserInfoService userInfoService;
 
-  // ///////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  /////////////////////////////// Constructors \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // //////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  ////////////////////////////////// Methods \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-  // ------------------------ Implements:
+  //------------------------ Implements:
 
   @Async
   public void buildBatchJob(BatchJob batchJob) {
     int page = 0;
     Page<UserInfo> userInfoPage = userInfoService.getPage(new PageRequest(page, 3));
     while (userInfoPage.hasContent()) {
-      if (batchJob.getBatchJobType() == BatchJobType.JOB_TITIE) {
+      if (batchJob.getBatchJobType() == BatchJobType.JOB_TITLE) {
         buildJobTitleBatchJob(batchJob, userInfoPage.getContent());
       } else {
         buildIndustyBatchJob(batchJob, userInfoPage.getContent());
@@ -57,11 +58,11 @@ public class BatchJobBuilderService {
 
   }
 
-  // ------------------------ Overrides:
+  //----------------------- Overrides:
 
-  // ---------------------------- Abstract Methods -----------------------------
+  //---------------------------- Abstract Methods -----------------------------
 
-  // ---------------------------- Utility Methods ------------------------------
+  //---------------------------- Utility Methods ------------------------------
 
   private void buildJobTitleBatchJob(BatchJob batchJob,
       List<UserInfo> userInfoList) {

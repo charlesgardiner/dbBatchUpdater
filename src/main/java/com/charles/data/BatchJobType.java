@@ -1,9 +1,13 @@
+/*
+ * © Copyright 2015 -  Charles Gardiner
+ */
+
 package com.charles.data;
 
 public enum BatchJobType {
 
   INDUSTRY("INDUSTRY"),
-  JOB_TITIE("JOB_TITLE");
+  JOB_TITLE("JOB_TITLE");
   
   private String value;
   
